@@ -1,93 +1,86 @@
-let cotizcionD = 0;
-let cotizcionP = 0;
+let compro = 0;
+let percep =asignarOperacion("percepcion")
+let imp =asignarOperacion("imppais")
 
-let entrada = prompt(" 1 - Cotizar Dolares (U$S) \n 2 - Cotizar Euros (€)\n 3 - Cotizar Uruguayos ($U)\n 4 - Cotizar Reales (R$)\n 5 - Simular Compra Dolares U$S \n 6 - Simular Venta Dolares U$S\n 7 - Simular Compra Euros €\n 8 - Simular Venta Euros €\n 9 - Simular Compra Uruguayos $U \n10 - Simular Venta Uruguayos $U\n11 - Simular Compra Reales R$\n12 - Simular Venta Reales R$");
-while (entrada != "esc") {
+let entrada = prompt(" 1 - Cotizar Dolares (U$S) \n 2 - Cotizar Euros (€)\n 3 - Cotizar Uruguayos ($U)\n 4 - Cotizar Reales (R$)\n 5 - Simular Compra de Monedas Extranjeras\n 6 - Simular Venta de Monedas Extranjeras\n 7 - Conoce el Signo de Las Monedas Extranjeras\n 8 - Salir");
+while (entrada != "8") {
+
+    class Monedas {
+        constructor(id, nombre, signo, compra, venta){
+            this.id = parseInt(id);
+            this.nombre = nombre.toUpperCase();
+            this.signo = signo.toUpperCase();
+            this.compra = parseFloat(compra);
+            this.venta = parseFloat(venta);
+    
+        }
+    }
+    //declaramos el array de Monedas para Almacenar
+    const moneda = [];
+    moneda.push(new Monedas (1, "Dolar", "u$s", 210.82, 211.22));
+    moneda.push(new Monedas (2, "Euros", "€", 229.5830, 230.5466));
+    moneda.push(new Monedas (3, "Uruguayos", "$u", 4.21, 4.41));
+    moneda.push(new Monedas (4, "Reales", "r$", 41.15, 43.75));
+    
     switch (entrada) {
         case "1":
-            alert("Cotizacion DOLAR: Compra 210.82 / Venta 211.22 ");
+            alert("Cotizacion "+moneda [entrada-1].nombre+": Compra "+moneda[entrada-1].compra+" / Venta "+moneda[entrada-1].venta);
             break;
         case "2":
-            alert("Cotizacion EUROS: Compra 229.5830 / Venta 230.5466 ");
+            alert("Cotizacion "+moneda [entrada-1].nombre+": Compra "+moneda[entrada-1].compra+" / Venta "+moneda[entrada-1].venta);
             break;
         case "3":
-            alert("Cotizacion URUGUAYOS: Compra 4.21 / Venta 4.41  ");
+            alert("Cotizacion "+moneda [entrada-1].nombre+": Compra "+moneda[entrada-1].compra+" / Venta "+moneda[entrada-1].venta);
             break;
         case "4":
-            alert("Cotizacion REALES: Compra 41.15 / Venta 43.75 ");
+            alert("Cotizacion "+moneda [entrada-1].nombre+": Compra "+moneda[entrada-1].compra+" / Venta "+moneda[entrada-1].venta);
             break;
-        case "5": //Cotizacion DOLAR: Compra 210.82 / Venta 211.22
-            cotizacionD = 210.82;
-            monto=prompt("Cuantos Pesos va cambiar a U$S ")
+        case "5":
+            monto=prompt("Cuantos Pesos va cambiar a Moneda Extranjera ")
             if(monto > 0){
-            alert("Compra U$S "+cotizarD(monto)+" con $"+monto+"\n recuerde agregar los Impuestos sobre la operacion:\n 35% de Percepcion RG4815/20 son $"+percepcion(monto)+"\n 30% de Impuesto Pais son $"+impPais(monto));
+                for (const money of moneda){
+                    compro = money.compra;
+                    alert("Compra "+cotizarD(monto)+" "+money.nombre+" con $"+monto+"\n recuerde agregar los Impuestos sobre la operacion:\n 35% de Percepcion RG4815/20 son $"+percep(monto)+"\n 30% de Impuesto Pais son $"+imp(monto));
+                }
             }
             break;
         case "6": 
-            cotizacionP = 211.22
-            monto=prompt("Cuantos U$S desea Vender")
+            monto=prompt("Cuanto en Moneda Extranjera desea Cambiar a Pesos")
             if(monto > 0){
-            alert("Recibe $"+cotizarP(monto)+" al Vender U$S "+monto);
+                for (const money of moneda){
+                    compro = money.venta;
+                    alert("Recibe $"+cotizarP(monto)+" al Vender "+monto+" "+money.nombre);
+                }   
             }
             break;
-        case "7": //Cotizacion EUROS: Compra 229.5830 / Venta 230.5466
-            cotizacionD = 229.5830
-            monto=prompt("Cuantos Pesos va cambiar a € ")
-            if(monto > 0){
-            alert("Compra € "+cotizarD(monto)+" con $"+monto+"\n recuerde agregar los Impuestos sobre la operacion:\n 35% de Percepcion RG4815/20 son $"+percepcion(monto)+"\n 30% de Impuesto Pais son $"+impPais(monto));
+        case "7":
+            buscar=prompt("Queres saber como es el signo para cada Moneda Extranjera\n (Dolar, Euros, Uruguayos, Reales)\n Ingresa la Moneda")
+            if(buscar != "8"){
+                const resultado = moneda.find((moneda)=>moneda.nombre === buscar.toUpperCase())
+                alert(`El Signo para ${resultado.nombre} es ${resultado.signo}.`)
             }
             break;
         case "8": 
-            cotizacionP = 230.5466
-            monto=prompt("Cuantos € desea Vender")
-            if(monto > 0){
-            alert("Recibe $"+cotizarP(monto)+" al Vender € "+monto);
-            }
-            break;
-        case "9": //Cotizacion URUGUAYOS: Compra 4.21 / Venta 4.41
-            cotizacionD = 4.21
-            monto=prompt("Cuantos Pesos va cambiar a $U ")
-            if(monto > 0){
-            alert("Compra $U "+cotizarD(monto)+" con $"+monto+"\n recuerde agregar los Impuestos sobre la operacion:\n 35% de Percepcion RG4815/20 son $"+percepcion(monto)+"\n 30% de Impuesto Pais son $"+impPais(monto));
-            }
-            break;
-        case "10":
-            cotizacionP = 4.41
-            monto=prompt("Cuantos $U desea Vender")
-            if(monto > 0){
-            alert("Recibe $"+cotizarP(monto)+" al Vender $U "+monto);
-            }
-            break;
-        case "11": //Cotizacion REALES: Compra 41.15 / Venta 43.75
-            cotizacionD = 41.15
-            monto=prompt("Cuantos Pesos va cambiar a R$ ")
-            if(monto > 0){
-            alert("Compra R$ "+cotizarD(monto)+" con $"+monto+"\n recuerde agregar los Impuestos sobre la operacion:\n 35% de Percepcion RG4815/20 son $"+percepcion(monto)+"\n 30% de Impuesto Pais son $"+impPais(monto));
-            }
-            break;
-        case "12":
-            cotizacionP = 43.75
-            monto=prompt("Cuantos R$ desea Vender")
-            if(monto > 0){
-            alert("Recibe $"+cotizarP(monto)+" al Vender R$ "+monto);
-            }
+            // Salir
             break;
         default:
-            alert("Ingrese un Codigo valido o esc para Salir");
+            alert("Ingrese un Codigo Válido");
             break;
     }
-    entrada = prompt(" 1 - Cotizar Dolares (U$S) \n 2 - Cotizar Euros (€)\n 3 - Cotizar Uruguayos ($U)\n 4 - Cotizar Reales (R$)\n 5 - Simular Compra Dolares U$S \n 6 - Simular Venta Dolares U$S\n 7 - Simular Compra Euros €\n 8 - Simular Venta Euros €\n 9 - Simular Compra Uruguayos $U \n10 - Simular Venta Uruguayos $U\n11 - Simular Compra Reales R$\n12 - Simular Venta Reales R$");
+    entrada = prompt(" 1 - Cotizar Dolares (U$S) \n 2 - Cotizar Euros (€)\n 3 - Cotizar Uruguayos ($U)\n 4 - Cotizar Reales (R$)\n 5 - Simular Compra de Monedas Extranjeras\n 6 - Simular Venta de Monedas Extranjeras\n 7 - Conoce el Signo de Las Monedas Extranjeras\n 8 - Salir");
 }
 
 function cotizarD(monto) {
-    return monto/= cotizacionD
+    return monto/= compro
 }
 function cotizarP(monto) {
-    return monto*= cotizacionP
+    return monto*= compro
 }
-function percepcion(monto) {
-    return monto*= 0.35
-}
-function impPais(monto) {
-    return monto*= 0.30
+function asignarOperacion(op){
+    if(op == "percepcion"){
+        return (monto) => monto*= 0.35;
+    }
+    else if(op == "imppais"){
+        return (monto) => monto*= 0.30;
+    }
 }
